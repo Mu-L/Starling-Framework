@@ -1,5 +1,7 @@
 package starling.unit
 {
+    import flash.utils.getDefinitionByName;
+
     import starling.display.Sprite;
     import starling.text.TextField;
     import starling.utils.Align;
@@ -32,6 +34,16 @@ package starling.unit
 
             _logLines = new Sprite();
             addChild(_logLines);
+        }
+
+        override public function onFinished():void
+        {
+            try
+            {
+                var nativeApp:Class = getDefinitionByName("flash.desktop.NativeApplication") as Class;
+                nativeApp["nativeApplication"].exit((testCount == successCount) ? 0 : 1);
+            }
+            catch (e:Error) {}
         }
 
         override public function log(message:String, color:uint=0xffffff):void
